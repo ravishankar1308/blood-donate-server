@@ -32,10 +32,12 @@ exports.create = async (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    const Name = req.query.bookName;
-    const condition = Name ? { bookName: { $regex: new RegExp(Name), $options: "i" } } : {};
+    const email = req.query.email;
+    const age = req.query.age;
+    // const condition = Name ? { bookName: { $regex: new RegExp(Name), $options: "i" } } : {};
+
 // console.log(condition);
-    Book.find(condition)
+    Book.findAll({email: email,age:age})
         .then(data => {
             res.send(data);
         })

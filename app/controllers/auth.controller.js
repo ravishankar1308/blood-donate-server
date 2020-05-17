@@ -52,7 +52,8 @@ exports.resolve = (req, res, next) => {
 
             // if everything is good, save to request for use in other routes
             const role = decoded.role;
-        res.send(role)
+            const id = decoded.id;
+        res.send({role:role,id:id})
         });
 
     } catch (e) {
@@ -81,13 +82,15 @@ exports.signin = async (req, res) => {
         );
 
         // return the information including token as JSON
-        res.status(200).send({auth: true, token: token, role: roleId.name});
+        res.status(200).send({auth: true, token: token, role: roleId.name,user:{id:user.id}});
     });
 
 };
 
 exports.findAll = (req, res) => {
     const Name = req.query.email;
+
+
     const condition = Name ? {email: {$regex: new RegExp(Name), $options: "i"}} : {};
 // console.log(condition);
     User.find(condition)
@@ -97,7 +100,22 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Some error occurred while retrieving User."
             });
         });
 };
+exports.findOne = (req, res) => {
+    const id = req.params.id;
+    User.findById(id)
+        .then(data => {
+            if (!data)
+                res.status(404).send({ message: "Not found Book with id " + id });
+            else res.send(data);
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .send({ message: "Error retrieving Book with id=" + id });
+        });
+};
+

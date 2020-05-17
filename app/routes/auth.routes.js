@@ -27,11 +27,15 @@ module.exports = function(app) {
 
   app.get(
       "/api/users",
-
       // verifySignUp.checkDuplicateUsernameOrEmail,
       // verifySignUp.checkRolesExisted
-
       controller.findAll
+  );
+  app.get(
+      "/api/users/:id",
+      // verifySignUp.checkDuplicateUsernameOrEmail,
+      // verifySignUp.checkRolesExisted
+      controller.findOne
   );
 
 };
