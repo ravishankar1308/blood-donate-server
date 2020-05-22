@@ -1,6 +1,6 @@
 const { verifySignUp } = require("../middlewares");
 const VerifyToken =require('../middlewares/VerifyToken');
-const controller = require("../controllers/auth.controller");
+const controller = require("../controllers/location.controller");
 const verify =require('../middlewares/VerifyUser');
 
 module.exports = function(app) {
@@ -11,31 +11,35 @@ module.exports = function(app) {
         next();
     });
 
-    app.post("/api/auth/signin",controller.signin);
-    app.post("/api/auth/resolve",
-        VerifyToken,
-        // verify.user,
-        controller.resolve);
-    app.post(
-        "/api/auth/signup",
+    app.post("/api/location",
 
-        // verifySignUp.checkDuplicateUsernameOrEmail,
-        // verifySignUp.checkRolesExisted
-
-        controller.signup
-    );
-
-    app.get(
-        "/api/users",
-        // verifySignUp.checkDuplicateUsernameOrEmail,
-        // verifySignUp.checkRolesExisted
-        controller.findAll
-    );
-    app.get(
-        "/api/users/:id",
-        // verifySignUp.checkDuplicateUsernameOrEmail,
-        // verifySignUp.checkRolesExisted
-        controller.findOne
-    );
+        controller.create);
+    app.get("/api/location",
+        controller.findOne);
+    // app.post("/api/auth/resolve",
+    //     VerifyToken,
+    //     // verify.user,
+    //     controller.resolve);
+    // app.post(
+    //     "/api/auth/signup",
+    //
+    //     // verifySignUp.checkDuplicateUsernameOrEmail,
+    //     // verifySignUp.checkRolesExisted
+    //
+    //     controller.signup
+    // );
+    //
+    // app.get(
+    //     "/api/users",
+    //     // verifySignUp.checkDuplicateUsernameOrEmail,
+    //     // verifySignUp.checkRolesExisted
+    //     controller.findAll
+    // );
+    // app.get(
+    //     "/api/users/:id",
+    //     // verifySignUp.checkDuplicateUsernameOrEmail,
+    //     // verifySignUp.checkRolesExisted
+    //     controller.findOne
+    // );
 
 };

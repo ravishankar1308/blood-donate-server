@@ -38,4 +38,10 @@ module.exports = function(app) {
       controller.findOne
   );
 
+
+  app.put(
+      "/api/users/:id",
+      controller.update
+  );
+
 };

@@ -8,7 +8,7 @@ exports.create = async (req, res) => {
         await res.status(400).send("Content can not be empty!" );
         return;
     }
-
+// const book = await new Book(req.body);
     const book =await new Book({
         bookName: req.body.bookName,
         author: req.body.author,

@@ -90,10 +90,10 @@ exports.signin = async (req, res) => {
 exports.findAll = (req, res) => {
     const Name = req.query.email;
 
-
     const condition = Name ? {email: {$regex: new RegExp(Name), $options: "i"}} : {};
 // console.log(condition);
     User.find(condition)
+        .populate('role')
         .then(data => {
             res.send(data);
         })
@@ -116,6 +116,28 @@ exports.findOne = (req, res) => {
             res
                 .status(500)
                 .send({ message: "Error retrieving Book with id=" + id });
+        });
+};
+
+exports.update = (req, res) => {
+    if (!req.body) {
+        return res.status(400).send({
+            message: "Data to update can not be empty!"
+        });
+    }
+    const id = req.params.id;
+    User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot update User with id=${id}. Maybe User was not found!`
+                });
+            } else res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating User with id=" + id
+            });
         });
 };
 

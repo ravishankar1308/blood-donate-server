@@ -14,15 +14,17 @@ const schema = new Schema({
     password:{type:String,required: true},
     age:{type:Number,required: true},
     bloodType:{type:String},
-    donate:{type:Boolean,default: false},
-    verifyUser:{type:Boolean,default: false},
+    donate:{type:String,default: 'false'},
+    verifyUser:{type:String,default: 'false'},
+    donateDate:{ type: Date,default:null},
     role:{type:Schema.Types.ObjectId, ref:'Role',required: true}
-}).method("toJSON", function () {
+},{timestamps: true})
+.method("toJSON", function () {
     const {__v, _id, ...object} = this.toObject();
     object.id = _id;
     return object;
 });
-schema.plugin(uniqueValidator);
+
 
 
 module.exports = mongoose.model('User',schema);
